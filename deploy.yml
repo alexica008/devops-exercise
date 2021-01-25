@@ -1,0 +1,55 @@
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Create directory httpd_1
+      file:
+        path: /home/vagrant/httpd_1
+        state: directory
+
+    - name: Create index.html on httpd_1 server
+      copy:
+        dest: "/home/vagrant/httpd_1/index.html"
+        content: "<html><body><h1>Hello from httpd_1 server!</h1></body></html>\n"
+
+    - name: Create directory httpd_2
+      file:
+        path: /home/vagrant/httpd_2
+        state: directory
+
+    - name: Create index.html on httpd_2 server
+      copy:
+        dest: "/home/vagrant/httpd_2/index.html"
+        content: "<html><body><h1>Hello from httpd_2 server!</h1></body></html>\n"
+  
+  - name: Download docker image
+      docker_image:
+        name: httpd
+        tag: latest
+        source: pull
+      become: yes
+
+    - name: Launching HTTPD container
+      docker_container:
+        name: httpd_1
+        image: httpd
+        state: started
+        exposed_ports:
+        - "80"
+        ports:
+        - "8080:80"
+        volumes:
+        - /home/vagrant/httpd_1:/var/www/
+      become: yes
+
+    - name: Launching HTTPD container
+      docker_container:
+        name: httpd_2
+        image: httpd
+        state: started
+        exposed_ports:
+        - "80"
+        ports:
+        - "8081:80"
+        volumes:
+        - /home/vagrant/httpd_2:/var/www/
+      become: yes
