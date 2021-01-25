@@ -1,0 +1,5 @@
+http_host_1: "httpd_1"
+http_host_2: "httpd_2"
+http_conf: "httpd.conf"
+http_port: "80"
+disable_default: true

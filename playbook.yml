@@ -1,0 +1,57 @@
+- hosts: localhost
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    - name: Create directory httpd_1
+      file:
+        path: /home/vagrant/httpd_1
+        state: directory
+
+    - name: Create index.html for httpd_1 server
+      template:
+        src: "templates/{{ http_host_1 }}/index.html.j2"
+        dest: "/home/vagrant/httpd_1/index.html"
+
+    - name: Create directory httpd_2
+      file:
+        path: /home/vagrant/httpd_2
+        state: directory
+
+    - name: Create index.html for httpd_2 server
+      template:
+        src: "templates/{{ http_host_2 }}/index.html.j2"
+        dest: "/home/vagrant/httpd_2/index.html"
+ 
+    - name: Download docker image
+      docker_image:
+        name: httpd
+        tag: latest
+        source: pull
+      become: yes
+
+    - name: Launching HTTPD container
+      docker_container:
+        name: httpd_1
+        image: httpd
+        state: started
+        exposed_ports:
+        - "80"
+        ports:
+        - "8081:80"
+        volumes:
+        - /home/vagrant/httpd_1:/usr/local/apache2/htdocs
+      become: yes
+
+    - name: Launching HTTPD container
+      docker_container:
+        name: httpd_2
+        image: httpd
+        state: started
+        exposed_ports:
+        - "80"
+        ports:
+        - "8082:80"
+        volumes:
+        - /home/vagrant/httpd_2:/usr/local/apache2/htdocs/
