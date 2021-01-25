@@ -21,7 +21,7 @@
         dest: "/home/vagrant/httpd_2/index.html"
         content: "<html><body><h1>Hello from httpd_2 server!</h1></body></html>\n"
   
-  - name: Download docker image
+    - name: Download docker image
       docker_image:
         name: httpd
         tag: latest
