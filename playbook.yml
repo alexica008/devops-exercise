@@ -55,3 +55,25 @@
         - "8082:80"
         volumes:
         - /home/vagrant/httpd_2:/usr/local/apache2/htdocs/
+ 
+    - name: Create directory nginx
+      file:
+        path: /home/vagrant/nginx
+        state: directory
+ 
+    - name: Create load-balancer.conf 
+      template:
+        src: "templates/load-balancer.conf.j2"
+        dest: "/home/vagrant/{{ nginx }}/load-balancer.conf"
+    
+    - name: Launch nginx container
+      docker_container:
+        name: nginx
+        image: nginx
+        state: started
+        exposed_ports:
+        - "80"
+        ports:
+        - 80:80
+        volumes:
+        - /home/vagrant/nginx:/etc/nginx/conf.d/
