@@ -61,11 +61,16 @@
         path: /home/vagrant/nginx
         state: directory
  
-    - name: Create load-balancer.conf 
+    - name: Create directory nginx
+      file:
+        path: /home/vagrant/nginx/conf.d
+        state: directory    
+
+    - name: Create nginx.conf 
       template:
-        src: "templates/load-balancer.conf.j2"
-        dest: "/home/vagrant/{{ nginx }}/load-balancer.conf"
-    
+        src: "templates/nginx.conf.j2"
+        dest: "/home/vagrant/{{ nginx }}/nginx.conf"
+
     - name: Launch nginx container
       docker_container:
         name: nginx
@@ -74,6 +79,7 @@
         exposed_ports:
         - "80"
         ports:
-        - 80:80
+        - "80:80"
         volumes:
-        - /home/vagrant/nginx:/etc/nginx/conf.d/
+        - "/home/vagrant/nginx/nginx.conf:/etc/nginx/nginx.conf" 
+        - "/home/vagrand/nginx/conf.d/:/etc/nginx/conf.d/"
