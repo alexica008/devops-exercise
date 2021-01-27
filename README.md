@@ -1,5 +1,3 @@
-# verint
-
 <h1>Dev-Ops Tech Interview exercise</h1> 
 
 * The playbook.yml file consists in multiple tasks that put toghether the containers and the servers configuration.
