@@ -31,7 +31,7 @@
         source: pull
       become: yes
 
-    - name: Launching HTTPD container
+    - name: Launch httpd_1 container
       docker_container:
         name: httpd_1
         image: httpd
@@ -44,7 +44,7 @@
         - /home/vagrant/httpd_1:/usr/local/apache2/htdocs
       become: yes
 
-    - name: Launching HTTPD container
+    - name: Launch httpd_2 container
       docker_container:
         name: httpd_2
         image: httpd
