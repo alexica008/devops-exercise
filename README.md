@@ -1,4 +1,6 @@
-<h1>Dev-Ops Tech Interview exercise</h1> 
+<h1> Ansible/Docker </h1> 
+
+This is an example of ansible implementation of an nginx server that balances 2 web servers, inside of docker containers.
 
 * The playbook.yml file consists in multiple tasks that put toghether the containers and the servers configuration.
 * inventory file has the declaration of target host and a few variables needed at runtime.
